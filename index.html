@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora d'Estalvi Energètic - ITB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div id="contingut-pdf" class="container">
+        <header>
+            <h1>Calculadora d'Estalvi Energètic ITB</h1>
+            <p>Projecte Fase 3: Anàlisi i simulació de consums</p>
+        </header>
+
+        <section class="controls">
+            <h3>Selecciona un període de temps</h3>
+            <label>Data Inici: <input type="date" id="dataInici" value="2025-09-01"></label>
+            <label>Data Fi: <input type="date" id="dataFi" value="2026-06-30"></label>
+            <button onclick="calcularDades()">Analitzar Dades</button>
+            <button onclick="exportarPDF()" class="btn-pdf">Exportar a PDF</button>
+        </section>
+
+        <section class="resultats">
+            <h3>1. Resultats del Càlcul (Amb Tendències Estacionals)</h3>
+            <div class="grid-resultats">
+                <div class="card">
+                    <h4>⚡ Electricitat</h4>
+                    <p>Consum proper any: <span id="elec-any">0</span> kWh</p>
+                    <p>Consum període seleccionat: <span id="elec-periode">0</span> kWh</p>
+                </div>
+                <div class="card">
+                    <h4>💧 Aigua</h4>
+                    <p>Consum proper any: <span id="aigua-any">0</span> L</p>
+                    <p>Consum període seleccionat: <span id="aigua-periode">0</span> L</p>
+                </div>
+                <div class="card">
+                    <h4>📄 Consumibles (Oficina)</h4>
+                    <p>Consum proper any: <span id="oficina-any">0</span> Unitats</p>
+                    <p>Consum període seleccionat: <span id="oficina-periode">0</span> Unitats</p>
+                </div>
+                <div class="card">
+                    <h4>🧼 Productes de Neteja</h4>
+                    <p>Consum proper any: <span id="neteja-any">0</span> Unitats</p>
+                    <p>Consum període seleccionat: <span id="neteja-periode">0</span> Unitats</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="grafics">
+            <h3>2. Visualització de Dades</h3>
+            <canvas id="meuGrafic"></canvas>
+        </section>
+
+        <section class="pla-reduccio">
+            <h3>3. Pla d'Acció: Reducció del 30% en 3 anys</h3>
+            <div class="pla-contingut">
+                <p><strong>Objectiu mesurable:</strong> Reduir el consum global un 30% en 3 anys (2025-2028).</p>
+                <p><strong>Cronograma:</strong> Any 1 (Conscienciació), Any 2 (Inversió eficient), Any 3 (Economia Circular).</p>
+                <ul>
+                    <li><strong>Electricitat:</strong> Apagar equips en standby i prioritzar energia solar d'autoconsum.</li>
+                    <li><strong>Aigua:</strong> Instal·lació de reductors de cabal a les aixetes.</li>
+                    <li><strong>Oficina:</strong> Política "paper zero", exàmens digitals i reutilització (Economia Circular).</li>
+                    <li><strong>Neteja:</strong> Compra a granel per reduir residus plàstics.</li>
+                </ul>
+            </div>
+            <button onclick="simularReduccio()" class="btn-estalvi">Aplicar Estalvi del 30% (Recalcular)</button>
+        </section>
+    </div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>

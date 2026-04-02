@@ -1,0 +1,49 @@
+{
+  "centre": "Institut Tecnològic de Barcelona",
+  "electricitat": [
+    {
+      "font": "Xarxa",
+      "consum_mensual_kWh": 74164
+    },
+    {
+      "font": "Solar",
+      "produccio_mensual_kWh": 13002
+    }
+  ],
+  "consum_aigua": [
+    {
+      "mes": "Febrer",
+      "consum_diari_estimat_L": 5200,
+      "consum_mensual_L": 110000
+    }
+  ],
+  "material_oficina": [
+    {
+      "article": "Paper A4 500H",
+      "unitats_mensuals": 45,
+      "cost_euros": 240.30
+    },
+    {
+      "article": "Marcador Pizarra",
+      "unitats_mensuals": 120,
+      "cost_euros": 106.80
+    }
+  ],
+  "productes_neteja": [
+    {
+      "article": "Fardos papel secamanos",
+      "unitats_mensuals": 15,
+      "cost_euros": 273.75
+    },
+    {
+      "article": "Sacos industriales",
+      "unitats_mensuals": 20,
+      "cost_euros": 30.20
+    },
+    {
+      "article": "Garrafas jabón",
+      "unitats_mensuals": 3,
+      "cost_euros": 25.50
+    }
+  ]
+}
