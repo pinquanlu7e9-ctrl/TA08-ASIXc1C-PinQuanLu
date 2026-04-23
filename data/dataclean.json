@@ -1,19 +1,248 @@
 {
-  "centre": "Institut Tecnològic de Barcelona",
-  "electricitat": [
-    { "font": "Xarxa", "consum_mensual_kWh": 4685 },
-    { "font": "Solar", "produccio_mensual_kWh": 2873 }
-  ],
-  "consum_aigua": [
-    { "mes": "Mitjana", "consum_diari_estimat_L": 3666, "consum_mensual_L": 110000 }
-  ],
-  "material_oficina": [
-    { "article": "Paper A4 500H", "unitats_mensuals": 45, "cost_euros": 240.30 },
-    { "article": "Marcador Pizarra", "unitats_mensuals": 120, "cost_euros": 106.80 }
-  ],
-  "productes_neteja": [
-    { "article": "Fardos papel secamanos", "unitats_mensuals": 15, "cost_euros": 273.75 },
-    { "article": "Sacos industriales", "unitats_mensuals": 20, "cost_euros": 30.20 },
-    { "article": "Garrafas jabón", "unitats_mensuals": 3, "cost_euros": 25.50 }
-  ]
+  "meta": {
+    "centre": "Institut Tecnològic de Barcelona (ITB)",
+    "adreca": "Barcelona, Catalunya, Espanya",
+    "any_referencia": 2024,
+    "data_extraccio": "2025-04-23",
+    "versio": "1.0",
+    "fonts_documentals": [
+      "Plant Report Solar ITB 01-2025 (generació fotovoltaica diari)",
+      "Factures Aigues de Barcelona – Feb 2024 (consum horari 25, 28, 29/02/2024)",
+      "Factura Lyreco F035 – 30/04/2024 (material oficina: paper, retoladors, borradors)",
+      "Factura Lyreco F036 – 31/05/2024 (recambis pissarra, paper A4)",
+      "Factura Lyreco F327 – 30/06/2024 (recambis marcador pissarra negre)",
+      "Factura Lyreco F328 – 31/10/2024 (paper Navigator A4 80g)",
+      "Factura Neteges F055 – 20/06/2024 (paper higiènic, sabó, bosses)",
+      "Factura Neteges F056 – 27/05/2024 (neteja jardí, patis, transport)",
+      "Factura Manteniment F039 – 13/09/2024 (treballs ferro i fusta)",
+      "Factura Manteniment F041 – 05/07/2024 (reparació urgència AACC)",
+      "Factura Manteniment F046 – 23/05/2024 (eliminació circuits obsolets QGP)",
+      "Factura DIGI F078 – Mai 2024 (Fibra 1Gb)",
+      "Factura O2 F294 – Març 2024 (Fibra 1Gb + Mòbil 200GB)"
+    ]
+  },
+  "indicadors": {
+    "electricitat": {
+      "descripcio": "Consum elèctric total del centre (xarxa + autoconsum solar)",
+      "unitat": "kWh",
+      "preu_kwh_eur": 0.182,
+      "factor_co2_kg_kwh": 0.233,
+      "installacio_solar": {
+        "potencia_kwp": 30.94,
+        "tipus": "Fotovoltaica en coberta",
+        "any_installacio": 2023
+      },
+      "dades_mensuals_2024": [
+        { "mes": 1,  "nom": "Gener",     "consum_kwh": 7500, "solar_kwh": 350, "xarxa_kwh": 7150, "dies_escola": 21 },
+        { "mes": 2,  "nom": "Febrer",    "consum_kwh": 7200, "solar_kwh": 380, "xarxa_kwh": 6820, "dies_escola": 20 },
+        { "mes": 3,  "nom": "Març",      "consum_kwh": 6800, "solar_kwh": 520, "xarxa_kwh": 6280, "dies_escola": 19 },
+        { "mes": 4,  "nom": "Abril",     "consum_kwh": 6000, "solar_kwh": 680, "xarxa_kwh": 5320, "dies_escola": 18 },
+        { "mes": 5,  "nom": "Maig",      "consum_kwh": 5800, "solar_kwh": 740, "xarxa_kwh": 5060, "dies_escola": 22 },
+        { "mes": 6,  "nom": "Juny",      "consum_kwh": 5000, "solar_kwh": 790, "xarxa_kwh": 4210, "dies_escola": 15 },
+        { "mes": 7,  "nom": "Juliol",    "consum_kwh": 1200, "solar_kwh": 820, "xarxa_kwh": 380,  "dies_escola": 0  },
+        { "mes": 8,  "nom": "Agost",     "consum_kwh": 800,  "solar_kwh": 750, "xarxa_kwh": 50,   "dies_escola": 0  },
+        { "mes": 9,  "nom": "Setembre",  "consum_kwh": 5500, "solar_kwh": 480, "xarxa_kwh": 5020, "dies_escola": 16 },
+        { "mes": 10, "nom": "Octubre",   "consum_kwh": 6200, "solar_kwh": 420, "xarxa_kwh": 5780, "dies_escola": 23 },
+        { "mes": 11, "nom": "Novembre",  "consum_kwh": 7800, "solar_kwh": 310, "xarxa_kwh": 7490, "dies_escola": 20 },
+        { "mes": 12, "nom": "Desembre",  "consum_kwh": 5200, "solar_kwh": 280, "xarxa_kwh": 4920, "dies_escola": 14 }
+      ],
+      "dades_diaries_gen2025_reals": [
+        { "data": "2025-01-01", "consum_kwh": 157.47, "solar_kwh": 42.56, "import_kwh": 117.53, "export_kwh": 2.62,  "co2_evitat_kg": 0.020 },
+        { "data": "2025-01-02", "consum_kwh": 159.55, "solar_kwh": 48.86, "import_kwh": 114.12, "export_kwh": 3.43,  "co2_evitat_kg": 0.023 },
+        { "data": "2025-01-03", "consum_kwh": 189.50, "solar_kwh": 36.48, "import_kwh": 153.24, "export_kwh": 0.22,  "co2_evitat_kg": 0.017 },
+        { "data": "2025-01-04", "consum_kwh": 201.76, "solar_kwh": 44.18, "import_kwh": 158.01, "export_kwh": 0.43,  "co2_evitat_kg": 0.021 },
+        { "data": "2025-01-05", "consum_kwh": 199.49, "solar_kwh": 41.99, "import_kwh": 157.64, "export_kwh": 0.14,  "co2_evitat_kg": 0.020 },
+        { "data": "2025-01-06", "consum_kwh": 191.55, "solar_kwh": 40.55, "import_kwh": 153.63, "export_kwh": 2.63,  "co2_evitat_kg": 0.019 },
+        { "data": "2025-01-07", "consum_kwh": 200.19, "solar_kwh": 53.26, "import_kwh": 148.83, "export_kwh": 1.90,  "co2_evitat_kg": 0.025 },
+        { "data": "2025-01-08", "consum_kwh": 467.60, "solar_kwh": 47.81, "import_kwh": 419.79, "export_kwh": 0.00,  "co2_evitat_kg": 0.023 },
+        { "data": "2025-01-09", "consum_kwh": 461.78, "solar_kwh": 52.03, "import_kwh": 409.75, "export_kwh": 0.00,  "co2_evitat_kg": 0.025 },
+        { "data": "2025-01-10", "consum_kwh": 425.97, "solar_kwh": 49.33, "import_kwh": 376.64, "export_kwh": 0.00,  "co2_evitat_kg": 0.023 },
+        { "data": "2025-01-11", "consum_kwh": 201.40, "solar_kwh": 40.03, "import_kwh": 162.86, "export_kwh": 1.49,  "co2_evitat_kg": 0.019 },
+        { "data": "2025-01-12", "consum_kwh": 214.71, "solar_kwh": 57.00, "import_kwh": 159.58, "export_kwh": 1.87,  "co2_evitat_kg": 0.027 },
+        { "data": "2025-01-13", "consum_kwh": 491.00, "solar_kwh": 55.89, "import_kwh": 435.11, "export_kwh": 0.00,  "co2_evitat_kg": 0.027 },
+        { "data": "2025-01-14", "consum_kwh": 484.29, "solar_kwh": 57.49, "import_kwh": 426.80, "export_kwh": 0.00,  "co2_evitat_kg": 0.027 },
+        { "data": "2025-01-15", "consum_kwh": 479.75, "solar_kwh": 55.58, "import_kwh": 424.17, "export_kwh": 0.00,  "co2_evitat_kg": 0.026 },
+        { "data": "2025-01-16", "consum_kwh": 490.80, "solar_kwh": 40.94, "import_kwh": 449.86, "export_kwh": 0.00,  "co2_evitat_kg": 0.019 },
+        { "data": "2025-01-17", "consum_kwh": 430.68, "solar_kwh": 52.90, "import_kwh": 377.78, "export_kwh": 0.00,  "co2_evitat_kg": 0.025 },
+        { "data": "2025-01-18", "consum_kwh": 198.59, "solar_kwh": 56.17, "import_kwh": 145.59, "export_kwh": 3.17,  "co2_evitat_kg": 0.027 },
+        { "data": "2025-01-19", "consum_kwh": 202.16, "solar_kwh": 35.53, "import_kwh": 166.83, "export_kwh": 0.20,  "co2_evitat_kg": 0.017 },
+        { "data": "2025-01-20", "consum_kwh": 488.39, "solar_kwh": 32.00, "import_kwh": 456.39, "export_kwh": 0.00,  "co2_evitat_kg": 0.015 },
+        { "data": "2025-01-21", "consum_kwh": 500.34, "solar_kwh": 30.24, "import_kwh": 470.10, "export_kwh": 0.00,  "co2_evitat_kg": 0.014 },
+        { "data": "2025-01-22", "consum_kwh": 165.55, "solar_kwh": 5.87,  "import_kwh": 159.68, "export_kwh": 0.00,  "co2_evitat_kg": 0.003 }
+      ]
+    },
+    "aigua": {
+      "descripcio": "Consum d'aigua del centre (xarxa municipal)",
+      "unitat": "m3",
+      "preu_m3_eur": 2.50,
+      "factor_co2_kg_m3": 0.30,
+      "proveidor": "Aigues de Barcelona",
+      "dades_mensuals_2024": [
+        { "mes": 1,  "nom": "Gener",     "consum_m3": 140 },
+        { "mes": 2,  "nom": "Febrer",    "consum_m3": 145 },
+        { "mes": 3,  "nom": "Març",      "consum_m3": 155 },
+        { "mes": 4,  "nom": "Abril",     "consum_m3": 160 },
+        { "mes": 5,  "nom": "Maig",      "consum_m3": 175 },
+        { "mes": 6,  "nom": "Juny",      "consum_m3": 165 },
+        { "mes": 7,  "nom": "Juliol",    "consum_m3": 50  },
+        { "mes": 8,  "nom": "Agost",     "consum_m3": 30  },
+        { "mes": 9,  "nom": "Setembre",  "consum_m3": 185 },
+        { "mes": 10, "nom": "Octubre",   "consum_m3": 160 },
+        { "mes": 11, "nom": "Novembre",  "consum_m3": 150 },
+        { "mes": 12, "nom": "Desembre",  "consum_m3": 120 }
+      ],
+      "mostra_horaria_real": {
+        "descripcio": "Consum horari diari tipus escolar (28/02/2024 - dimecres)",
+        "data": "2024-02-28",
+        "hores": [200, 154, 125, 155, 152, 152, 152, 270, 275, 455, 435, 465, 390, 500, 445, 430, 395, 530, 445, 325, 170, 410, 325, 250],
+        "unitat_litres": true,
+        "total_dia_litres": 7590
+      }
+    },
+    "consumibles_oficina": {
+      "descripcio": "Despesa en material d'oficina, paper i retoladors de pissarra",
+      "unitat": "EUR",
+      "factor_co2_kg_eur": 0.50,
+      "proveidor_principal": "Lyreco",
+      "factures_reals": [
+        {
+          "id": "F035",
+          "data": "2024-04-30",
+          "import_net": 229.03,
+          "import_iva": 277.13,
+          "iva_pct": 21,
+          "articles": [
+            { "ref": "6.016.972", "desc": "PK10 Recambios Borrador Faibo",              "qtd": 1,  "preu_unit": 5.60,  "import_net": 5.60  },
+            { "ref": "6.016.959", "desc": "Borrador No Magnético Faibo Plast Gris",      "qtd": 6,  "preu_unit": 6.83,  "import_net": 40.98 },
+            { "ref": "1.946.072", "desc": "500H Paper Navigator Universal A4 80g",       "qtd": 15, "preu_unit": 5.34,  "import_net": 80.10 },
+            { "ref": "4.241.828", "desc": "Marcador Pizarra Pilot Begreen 2.3mm Verd",  "qtd": 25, "preu_unit": 0.89,  "import_net": 22.25 },
+            { "ref": "3.771.377", "desc": "Marcador Pizarra Pilot Begreen 2.3mm Vermell","qtd": 30, "preu_unit": 0.89, "import_net": 26.70 },
+            { "ref": "3.771.355", "desc": "Marcador Pizarra Pilot Begreen 2.3mm Negre", "qtd": 30, "preu_unit": 0.89,  "import_net": 26.70 },
+            { "ref": "3.771.366", "desc": "Marcador Pizarra Pilot Begreen 2.3mm Blau",  "qtd": 30, "preu_unit": 0.89,  "import_net": 26.70 }
+          ]
+        },
+        {
+          "id": "F036",
+          "data": "2024-05-31",
+          "import_net": 215.90,
+          "import_iva": 261.24,
+          "iva_pct": 21,
+          "articles": [
+            { "ref": "4.241.806", "desc": "Recambio Marcador Pissarra Blanca Verd",  "qtd": 30, "preu_unit": 0.91,  "import_net": 27.30  },
+            { "ref": "3.771.399", "desc": "Recambio Marcador Pissarra Blanca Blau",  "qtd": 40, "preu_unit": 0.71,  "import_net": 28.40  },
+            { "ref": "1.946.072", "desc": "500H Paper Navigator Universal A4 80g",   "qtd": 30, "preu_unit": 5.34,  "import_net": 160.20 }
+          ]
+        },
+        {
+          "id": "F327",
+          "data": "2024-06-30",
+          "import_net": 28.40,
+          "import_iva": 34.36,
+          "iva_pct": 21,
+          "articles": [
+            { "ref": "3.771.388", "desc": "Recambio Marcador Pissarra Blanca Negre", "qtd": 40, "preu_unit": 0.71, "import_net": 28.40 }
+          ]
+        },
+        {
+          "id": "F328",
+          "data": "2024-10-31",
+          "import_net": 164.10,
+          "import_iva": 198.56,
+          "iva_pct": 21,
+          "articles": [
+            { "ref": "1.946.072", "desc": "500H Paper Navigator Universal A4 80g (20u)", "qtd": 20, "preu_unit": 5.47, "import_net": 109.40 },
+            { "ref": "1.946.072", "desc": "500H Paper Navigator Universal A4 80g (10u)", "qtd": 10, "preu_unit": 5.47, "import_net": 54.70  }
+          ]
+        }
+      ],
+      "dades_mensuals_2024": [
+        { "mes": 1,  "nom": "Gener",     "cost_eur": 320 },
+        { "mes": 2,  "nom": "Febrer",    "cost_eur": 270 },
+        { "mes": 3,  "nom": "Març",      "cost_eur": 300 },
+        { "mes": 4,  "nom": "Abril",     "cost_eur": 290 },
+        { "mes": 5,  "nom": "Maig",      "cost_eur": 310 },
+        { "mes": 6,  "nom": "Juny",      "cost_eur": 320 },
+        { "mes": 7,  "nom": "Juliol",    "cost_eur": 80  },
+        { "mes": 8,  "nom": "Agost",     "cost_eur": 50  },
+        { "mes": 9,  "nom": "Setembre",  "cost_eur": 350 },
+        { "mes": 10, "nom": "Octubre",   "cost_eur": 280 },
+        { "mes": 11, "nom": "Novembre",  "cost_eur": 260 },
+        { "mes": 12, "nom": "Desembre",  "cost_eur": 180 }
+      ]
+    },
+    "productes_neteja": {
+      "descripcio": "Despesa en productes de neteja, higiene i serveis de neteja externs",
+      "unitat": "EUR",
+      "factor_co2_kg_eur": 0.80,
+      "factures_reals": [
+        {
+          "id": "F055",
+          "data": "2024-06-20",
+          "import_net": 620.05,
+          "import_iva": 750.26,
+          "iva_pct": "10% i 21%",
+          "articles": [
+            { "desc": "Fardos paper secamans (18.25€/fardo)",     "qtd": 10, "preu_unit": 18.25, "import_net": 182.50 },
+            { "desc": "Sacos industrials (1.51€/sac)",             "qtd": 20, "preu_unit": 1.51,  "import_net": 30.20  },
+            { "desc": "Bolses escombraries petites (1.13€/u)",     "qtd": 30, "preu_unit": 1.13,  "import_net": 33.90  },
+            { "desc": "Fardos paper WC industrial (25.67€/fardo)", "qtd": 10, "preu_unit": 25.67, "import_net": 256.70 },
+            { "desc": "Fardos paper secamans mecha (18.25€/fardo)","qtd": 5,  "preu_unit": 18.25, "import_net": 91.25  },
+            { "desc": "Garrafes sabó mans 5L (8.50€/garrafa)",     "qtd": 3,  "preu_unit": 8.50,  "import_net": 25.50  }
+          ]
+        },
+        {
+          "id": "F056",
+          "data": "2024-05-27",
+          "import_net": 375.80,
+          "import_iva": 454.72,
+          "iva_pct": 21,
+          "articles": [
+            { "desc": "Neteja jardí, patis i entrada (20/04/2024)", "qtd": 1, "preu_unit": 668.80,  "import_net": 668.80  },
+            { "desc": "Transport i deixalleria",                      "qtd": 1, "preu_unit": 208.60,  "import_net": 208.60  },
+            { "desc": "Borsa hores especialistes licitació (30h)",   "qtd": 1, "preu_unit": -501.60, "import_net": -501.60 }
+          ]
+        }
+      ],
+      "dades_mensuals_2024": [
+        { "mes": 1,  "nom": "Gener",     "cost_eur": 480 },
+        { "mes": 2,  "nom": "Febrer",    "cost_eur": 500 },
+        { "mes": 3,  "nom": "Març",      "cost_eur": 530 },
+        { "mes": 4,  "nom": "Abril",     "cost_eur": 560 },
+        { "mes": 5,  "nom": "Maig",      "cost_eur": 575 },
+        { "mes": 6,  "nom": "Juny",      "cost_eur": 750 },
+        { "mes": 7,  "nom": "Juliol",    "cost_eur": 200 },
+        { "mes": 8,  "nom": "Agost",     "cost_eur": 150 },
+        { "mes": 9,  "nom": "Setembre",  "cost_eur": 600 },
+        { "mes": 10, "nom": "Octubre",   "cost_eur": 550 },
+        { "mes": 11, "nom": "Novembre",  "cost_eur": 520 },
+        { "mes": 12, "nom": "Desembre",  "cost_eur": 400 }
+      ]
+    }
+  },
+  "altres_despeses": {
+    "manteniment": [
+      { "id": "F039", "data": "2024-09-13", "import_net": 837.17, "import_iva": 1012.98, "desc": "Treballs en ferro i fusta – Portes i baranes malmeses" },
+      { "id": "F041", "data": "2024-07-05", "import_net": 288.00, "import_iva": 348.48,  "desc": "Reparació urgència AACC – Compressor 400W + sonda temperatura" },
+      { "id": "F046", "data": "2024-05-23", "import_net": 2105.80,"import_iva": 2548.02, "desc": "Eliminació circuits obsolets QGP + nou OGP amb control lumínic" }
+    ],
+    "telecomunicacions": [
+      { "id": "F078-DIGI", "data": "2024-05", "proveidor": "DIGI",  "servei": "Fibra 1Gb (EN CASA)", "cost_mensual_iva": 30.00 },
+      { "id": "F294-O2",   "data": "2024-03", "proveidor": "O2",    "servei": "Fibra 1Gb + Mòbil 200GB", "cost_mensual_iva": 50.00 }
+    ]
+  },
+  "resum_anual_2024": {
+    "electricitat_total_kwh": 65000,
+    "electricitat_solar_kwh": 6520,
+    "electricitat_cost_eur": 11830,
+    "electricitat_co2_kg": 15145,
+    "aigua_total_m3": 1635,
+    "aigua_cost_eur": 4087,
+    "aigua_co2_kg": 490,
+    "consumibles_total_eur": 3010,
+    "consumibles_co2_kg": 1505,
+    "neteja_total_eur": 5815,
+    "neteja_co2_kg": 4652,
+    "co2_total_kg": 21792,
+    "co2_total_t": 21.79
+  }
 }

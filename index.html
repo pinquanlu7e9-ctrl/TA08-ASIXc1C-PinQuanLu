@@ -1,75 +1,303 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auditoria Energètica ITB - Dashboard Pro</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ITB – Calculadora d'Estalvi Energètic</title>
+  <meta name="description" content="Dashboard de consum energètic i ambiental de l'Institut Tecnològic de Barcelona." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body>
-    <div id="contingut-pdf" class="container">
-        <header>
-            <h1>Panell d'Auditoria Energètica ITB</h1>
-            <p>Model de simulació de consums amb ponderació estacional</p>
-        </header>
+<body class="bg-grid">
 
-        <div id="missatge-error" class="alerta oculta" role="alert" aria-live="assertive"></div>
-
-        <section class="controls" aria-labelledby="controls-title">
-            <h3 id="controls-title">Paràmetres de Simulació</h3>
-            <div class="control-group">
-                <label for="dataInici">Data Inici: </label>
-                <input type="date" id="dataInici" value="2025-09-01" aria-label="Data d'inici del període">
-                
-                <label for="dataFi">Data Fi: </label>
-                <input type="date" id="dataFi" value="2026-06-30" aria-label="Data de fi del període">
-            </div>
-            <div class="accions">
-                <button onclick="calcularDades()" class="btn-primary" aria-label="Executar anàlisi de dades">Analitzar Dades</button>
-                <button onclick="exportarPDF()" class="btn-danger" aria-label="Exportar informe a PDF">📄 Exportar a PDF</button>
-            </div>
-        </section>
-
-        <section class="resultats" aria-labelledby="results-title">
-            <h3 id="results-title">Mètriques Calculades (Ajustades per Estacionalitat)</h3>
-            <div class="grid-resultats">
-                <div class="card" tabindex="0">
-                    <h4>⚡ Electricitat (Xarxa)</h4>
-                    <p class="dada-principal"><span id="elec-periode">0</span> <span class="unitat">kWh</span></p>
-                    <p class="dada-secundaria">Projecció Anual: <span id="elec-any">0</span> kWh</p>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>💧 Consum d'Aigua</h4>
-                    <p class="dada-principal"><span id="aigua-periode">0</span> <span class="unitat">L</span></p>
-                    <p class="dada-secundaria">Projecció Anual: <span id="aigua-any">0</span> L</p>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>📄 Material d'Oficina</h4>
-                    <p class="dada-principal"><span id="oficina-periode">0</span> <span class="unitat">Unitats</span></p>
-                    <p class="dada-secundaria">Projecció Anual: <span id="oficina-any">0</span> Unitats</p>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>🧼 Productes de Neteja</h4>
-                    <p class="dada-principal"><span id="neteja-periode">0</span> <span class="unitat">Unitats</span></p>
-                    <p class="dada-secundaria">Projecció Anual: <span id="neteja-any">0</span> Unitats</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="grafics" aria-hidden="true">
-            <canvas id="meuGrafic"></canvas>
-        </section>
-
-        <section id="pla-reduccio" class="pla-reduccio">
-            <h3>Protocol d'Economia Circular (-30%)</h3>
-            <div class="pla-contingut">
-                <p>Aplicació del protocol de segona vida i gestió eficient per al període 2025-2028.</p>
-            </div>
-            <button onclick="simularReduccio()" id="btn-estalvi" class="btn-warning" aria-pressed="false">Aplicar Factor de Reducció (0.7x)</button>
-        </section>
+<!-- ── NAVBAR ─────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-brand">
+      <div class="brand-icon">🌍</div>
+      <span>ITB Energia</span>
     </div>
-    <script src="js/script.js"></script>
+    <ul class="nav-links">
+      <li><a href="index.html">📊 Dashboard</a></li>
+      <li><a href="calculadora.html">🔢 Calculadora</a></li>
+      <li><a href="millores.html">🌿 Pla de Millora</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────────────────── -->
+<section class="hero" id="main-content">
+  <div class="container">
+    <div class="hero-eyebrow">
+      <span class="pulse"></span>
+      TA08 · Institut Tecnològic de Barcelona · Curs 25/26
+    </div>
+    <h1>Podem reduir un <span>30%</span> l'impacte<br>ambiental del centre?</h1>
+    <p class="hero-subtitle">
+      Dashboard de consum energètic, hídric i de consumibles de l'ITB.
+      Dades reals extretes dels documents <em>ITB Leaks</em> (2024).
+    </p>
+    <div class="hero-actions">
+      <a href="calculadora.html" class="btn btn-primary btn-lg">🔢 Anar a la Calculadora</a>
+      <a href="millores.html"    class="btn btn-outline btn-lg">🌿 Veure Pla de Millora</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── KPI STRIP ──────────────────────────────────────────────── -->
+<section style="padding: 0 0 48px;">
+  <div class="container">
+    <div class="stats-strip">
+      <div class="stat-item">
+        <div class="stat-num">
+          <span data-count="65000" data-suffix="">65.000</span>
+          <span class="stat-unit">kWh</span>
+        </div>
+        <div class="stat-desc">⚡ Electricitat / any</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">
+          <span data-count="1635">1.635</span>
+          <span class="stat-unit">m³</span>
+        </div>
+        <div class="stat-desc">💧 Aigua / any</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">
+          <span data-count="21792">21.792</span>
+          <span class="stat-unit">kg</span>
+        </div>
+        <div class="stat-desc">🌿 CO₂ total / any</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">
+          <span data-count="24742">24.742</span>
+          <span class="stat-unit">€</span>
+        </div>
+        <div class="stat-desc">💰 Cost total / any</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 4 KPI CARDS ────────────────────────────────────────────── -->
+<section style="padding: 0 0 64px;">
+  <div class="container">
+    <div class="section-title"><div class="dot"></div><h2>Indicadors principals 2024</h2></div>
+    <div class="grid-4">
+
+      <!-- ELECTRICITAT -->
+      <div class="kpi-card fade-up" style="--kpi-color:#f59e0b;">
+        <div class="kpi-header">
+          <div class="kpi-icon" style="background:rgba(245,158,11,0.12);">⚡</div>
+          <span class="kpi-badge">kWh / any</span>
+        </div>
+        <div class="kpi-value" data-count="65000">65.000</div>
+        <div class="kpi-label">Consum elèctric total</div>
+        <div class="kpi-sub">
+          <span>💰 Cost estimat</span>
+          <span class="mono">11.830 €</span>
+        </div>
+        <div class="kpi-sub" style="border-top: none; padding-top: 0; margin-top: -6px;">
+          <span>☀️ Autoconsum solar</span>
+          <span class="mono" style="color:var(--amber);">6.520 kWh</span>
+        </div>
+      </div>
+
+      <!-- AIGUA -->
+      <div class="kpi-card fade-up" style="--kpi-color:#0ea5e9;">
+        <div class="kpi-header">
+          <div class="kpi-icon" style="background:rgba(14,165,233,0.12);">💧</div>
+          <span class="kpi-badge">m³ / any</span>
+        </div>
+        <div class="kpi-value" data-count="1635">1.635</div>
+        <div class="kpi-label">Consum d'aigua</div>
+        <div class="kpi-sub">
+          <span>💰 Cost estimat</span>
+          <span class="mono">4.087 €</span>
+        </div>
+        <div class="kpi-sub" style="border-top:none;padding-top:0;margin-top:-6px;">
+          <span>🌿 CO₂ associat</span>
+          <span class="mono" style="color:var(--blue);">490 kg</span>
+        </div>
+      </div>
+
+      <!-- CONSUMIBLES -->
+      <div class="kpi-card fade-up" style="--kpi-color:#10b981;">
+        <div class="kpi-header">
+          <div class="kpi-icon" style="background:rgba(16,185,129,0.12);">📄</div>
+          <span class="kpi-badge">€ / any</span>
+        </div>
+        <div class="kpi-value" data-count="3010">3.010</div>
+        <div class="kpi-label">Consumibles oficina</div>
+        <div class="kpi-sub">
+          <span>📦 Paper A4 (500H)</span>
+          <span class="mono">+75 resmes</span>
+        </div>
+        <div class="kpi-sub" style="border-top:none;padding-top:0;margin-top:-6px;">
+          <span>🌿 CO₂ associat</span>
+          <span class="mono" style="color:var(--green-l);">1.505 kg</span>
+        </div>
+      </div>
+
+      <!-- NETEJA -->
+      <div class="kpi-card fade-up" style="--kpi-color:#a855f7;">
+        <div class="kpi-header">
+          <div class="kpi-icon" style="background:rgba(168,85,247,0.12);">🧹</div>
+          <span class="kpi-badge">€ / any</span>
+        </div>
+        <div class="kpi-value" data-count="5815">5.815</div>
+        <div class="kpi-label">Productes de neteja</div>
+        <div class="kpi-sub">
+          <span>🧴 Inclou paper WC i sabó</span>
+          <span class="mono">750 €/mes punta</span>
+        </div>
+        <div class="kpi-sub" style="border-top:none;padding-top:0;margin-top:-6px;">
+          <span>🌿 CO₂ associat</span>
+          <span class="mono" style="color:var(--purple);">4.652 kg</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── MAIN CHARTS ────────────────────────────────────────────── -->
+<section style="padding:0 0 64px;">
+  <div class="container">
+    <div class="section-title"><div class="dot"></div><h2>Evolució mensual del consum</h2></div>
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="chart-box" style="height:320px;">
+        <div class="chart-title">Electricitat i Aigua per mes (2024)</div>
+        <canvas id="chart-overview" style="height:270px;"></canvas>
+      </div>
+      <div class="chart-box" style="height:320px;">
+        <div class="chart-title">Distribució de costos mensuals (€)</div>
+        <canvas id="chart-cost" style="height:270px;"></canvas>
+      </div>
+    </div>
+
+    <!-- CO2 + Daily real data -->
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="chart-box" style="height:320px;">
+        <div class="chart-title">Petjada de CO₂ per indicador (kg/any)</div>
+        <canvas id="chart-co2" style="height:270px;"></canvas>
+      </div>
+      <div class="chart-box" style="height:320px;">
+        <div class="chart-title">⚡ Dades reals: Electricitat diària Gener 2025 (Plant Report ITB)</div>
+        <canvas id="chart-diari" style="height:270px;"></canvas>
+      </div>
+    </div>
+
+    <!-- Water hourly real data -->
+    <div class="chart-box" style="height:300px;">
+      <div class="chart-title">💧 Dades reals: Consum horari d'aigüa (28/02/2024 – Aigues de Barcelona)</div>
+      <canvas id="chart-aigua-horari" style="height:250px;"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOURCE DOCS ────────────────────────────────────────────── -->
+<section style="padding:0 0 64px;">
+  <div class="container">
+    <div class="section-title"><div class="dot"></div><h2>Fonts documentals (ITB Leaks)</h2></div>
+    <div class="grid-3">
+
+      <div class="card fade-up">
+        <div style="font-size:2rem;margin-bottom:12px;">⚡</div>
+        <h3 style="margin-bottom:8px;">Electricitat</h3>
+        <p style="font-size:.875rem;">
+          <strong>Plant Report ITB</strong> – Gener 2025<br>
+          Instal·lació solar 30,94 kWp en coberta.<br>
+          22 dies de dades diàries reals: consum, autoconsum, exportació a xarxa i CO₂ evitat.
+        </p>
+        <div class="divider"></div>
+        <div class="flex justify-between" style="font-size:.8rem;">
+          <span class="text-muted">Registres</span>
+          <span class="mono text-amber">22 dies</span>
+        </div>
+      </div>
+
+      <div class="card fade-up">
+        <div style="font-size:2rem;margin-bottom:12px;">💧</div>
+        <h3 style="margin-bottom:8px;">Aigua</h3>
+        <p style="font-size:.875rem;">
+          <strong>Aigues de Barcelona</strong> – Febrer 2024<br>
+          Lectures horàries dels dies 25, 28 i 29 de febrer de 2024.<br>
+          Consum típic dia lectiu: 5.000–8.000 L/dia.
+        </p>
+        <div class="divider"></div>
+        <div class="flex justify-between" style="font-size:.8rem;">
+          <span class="text-muted">Factures</span>
+          <span class="mono text-blue">3 albarans</span>
+        </div>
+      </div>
+
+      <div class="card fade-up">
+        <div style="font-size:2rem;margin-bottom:12px;">📄</div>
+        <h3 style="margin-bottom:8px;">Consumibles i Neteja</h3>
+        <p style="font-size:.875rem;">
+          <strong>Lyreco</strong> (F035, F036, F327, F328) – Abr–Nov 2024.<br>
+          <strong>Neteges</strong> (F055, F056) – Mai–Jun 2024.<br>
+          Paper, retoladors, sabó, paper WC, bosses i neteja exterior.
+        </p>
+        <div class="divider"></div>
+        <div class="flex justify-between" style="font-size:.8rem;">
+          <span class="text-muted">Factures</span>
+          <span class="mono text-green">6 documents</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Alert info -->
+    <div class="alert alert-green mt-4">
+      <span>ℹ️</span>
+      <span>Les dades mensuals anuals s'han extrapolat a partir de les factures reals disponibles
+      aplicant factors estacionals basats en el perfil d'activitat del centre (mesos lectius vs. vacances).
+      Les dades de Gener 2025 de la instal·lació solar provenen de registres reals diaris del Plant Report ITB.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────── -->
+<section style="padding: 0 0 80px;">
+  <div class="container">
+    <div class="card card-accent" style="text-align:center; padding:48px;">
+      <div style="font-size:3rem; margin-bottom:16px;">🌿</div>
+      <h2 style="margin-bottom:12px;">Pots reduir <span style="color:var(--green-l);">21.792 kg de CO₂</span> cada any</h2>
+      <p style="max-width:500px; margin:0 auto 28px;">
+        Utilitza la calculadora per simular l'estalvi amb qualsevol percentatge de reducció,
+        o explora el pla de millora a 3 anys.
+      </p>
+      <div class="flex" style="gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="calculadora.html" class="btn btn-primary btn-lg">🔢 Obrir Calculadora</a>
+        <a href="millores.html"    class="btn btn-outline btn-lg">📋 Pla de Millora 30%</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div>
+      <div class="footer-brand">🌍 ITB Energia · Calculadora d'Estalvi</div>
+      <div class="footer-copy mt-1">TA08 – ASIXc1 · Institut Tecnològic de Barcelona · Curs 25/26</div>
+    </div>
+    <div class="footer-copy" style="text-align:right;">
+      Dades: ITB Leaks 2024<br>
+      Llicència <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC-BY 4.0</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS ────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/export.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ITB – Calculadora d'Estalvi Energètic</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔢</text></svg>" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .slider-wrap { display:flex; align-items:center; gap:12px; }
+    input[type="range"] {
+      flex:1; -webkit-appearance:none; appearance:none;
+      height:6px; background:var(--border); border-radius:3px; outline:none; cursor:pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance:none; width:18px; height:18px; border-radius:50%;
+      background:var(--green); cursor:pointer;
+      box-shadow: 0 0 8px rgba(16,185,129,0.5);
+      transition: transform .15s;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover { transform:scale(1.2); }
+    .preset-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .preset-btn {
+      padding:6px 14px; border-radius:20px; border:1px solid var(--border);
+      background:var(--bg); color:var(--text-dim); font-size:.8rem; font-weight:600;
+      cursor:pointer; transition:all .2s;
+    }
+    .preset-btn:hover { border-color:var(--green-dim); color:var(--green-l); background:var(--green-glass); }
+    .filter-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px; }
+    .filter-tab {
+      padding:7px 16px; border-radius:20px; border:1px solid var(--border);
+      background:var(--bg-card); color:var(--text-dim); font-size:.82rem; font-weight:600;
+      cursor:pointer; transition:all .2s;
+    }
+    .filter-tab:hover, .filter-tab.active {
+      border-color:var(--green-dim); color:var(--green-l);
+      background:rgba(16,185,129,0.08);
+    }
+    #calc-results {
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap:20px;
+    }
+    .summary-bar {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:1px; background:var(--border);
+      border:1px solid var(--border); border-radius:var(--radius-lg);
+      overflow:hidden; margin-bottom:32px;
+    }
+    .summary-cell {
+      background:var(--bg-card); padding:20px 24px; text-align:center;
+    }
+    .summary-cell .val {
+      font-family:var(--font-data); font-size:1.5rem; font-weight:700; color:var(--white);
+    }
+    .summary-cell .lbl { font-size:.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.08em; margin-top:4px; }
+  </style>
+</head>
+<body class="bg-grid">
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-brand">
+      <div class="brand-icon">🌍</div>
+      <span>ITB Energia</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">📊 Dashboard</a></li>
+      <li><a href="calculadora.html">🔢 Calculadora</a></li>
+      <li><a href="millores.html">🌿 Pla de Millora</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div id="main-content">
+
+<!-- ── PAGE HEADER ────────────────────────────────────────────── -->
+<section style="padding:48px 0 32px;">
+  <div class="container">
+    <div class="hero-eyebrow"><span class="pulse"></span>Fase 3 · Calculadora Energètica</div>
+    <h1>Calculadora d'<span style="color:var(--green-l);">Estalvi Energètic</span></h1>
+    <p class="hero-subtitle">
+      Simula el consum futur del centre per a qualsevol període i percentatge de reducció.
+      Tots els càlculs incorporen variabilitat estacional real.
+    </p>
+  </div>
+</section>
+
+<!-- ── CONTROLS ───────────────────────────────────────────────── -->
+<section style="padding:0 0 32px;">
+  <div class="container">
+    <div class="period-picker">
+
+      <!-- Indicador filter -->
+      <div class="form-group" style="min-width:180px;">
+        <label for="sel-indicador">📊 Indicador</label>
+        <select id="sel-indicador">
+          <option value="tots">Tots els indicadors</option>
+          <option value="elec">⚡ Electricitat</option>
+          <option value="aigua">💧 Aigua</option>
+          <option value="cons">📄 Consumibles</option>
+          <option value="nete">🧹 Neteja</option>
+        </select>
+      </div>
+
+      <!-- Month ini -->
+      <div class="form-group">
+        <label for="sel-mes-ini">📅 Mes inici (període custom)</label>
+        <select id="sel-mes-ini"></select>
+      </div>
+
+      <!-- Month fi -->
+      <div class="form-group">
+        <label for="sel-mes-fi">📅 Mes final (període custom)</label>
+        <select id="sel-mes-fi"></select>
+      </div>
+
+      <!-- Reduction % -->
+      <div class="form-group" style="flex:2; min-width:220px;">
+        <label>🌿 Reducció aplicada: <strong id="lbl-reduccio" style="color:var(--green-l);">0%</strong></label>
+        <div class="slider-wrap">
+          <span class="mono text-muted" style="font-size:.8rem;">0%</span>
+          <input type="range" id="input-reduccio" min="0" max="50" value="0" step="1" />
+          <span class="mono text-muted" style="font-size:.8rem;">50%</span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btn-calcular">🔢 Calcular</button>
+        <button class="btn btn-ghost"   id="btn-reset">↺ Reset</button>
+      </div>
+
+    </div>
+
+    <!-- Quick Presets -->
+    <div class="flex items-center gap-2 mt-3" style="flex-wrap:wrap;">
+      <span style="font-size:.8rem; color:var(--text-muted); font-weight:600;">Períodes ràpids:</span>
+      <div class="preset-row">
+        <button class="preset-btn" data-preset="any">📅 Any complet (Gen→Des)</button>
+        <button class="preset-btn" data-preset="curs">🎓 Curs (Set→Jun)</button>
+        <button class="preset-btn" data-preset="h1">❄️ Hivern (Des→Feb)</button>
+        <button class="preset-btn" data-preset="h2">🌸 Primavera (Mar→Mai)</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SUMMARY BAR ────────────────────────────────────────────── -->
+<section style="padding:0 0 24px;">
+  <div class="container">
+    <div class="summary-bar">
+      <div class="summary-cell">
+        <div class="val" id="sum-cost">—</div>
+        <div class="lbl">💰 Cost total estimat</div>
+      </div>
+      <div class="summary-cell">
+        <div class="val" id="sum-co2">—</div>
+        <div class="lbl">🌿 CO₂ total estimat</div>
+      </div>
+      <div class="summary-cell">
+        <div class="val" id="sum-save" style="color:var(--text-muted);">—</div>
+        <div class="lbl">📉 Estalvi vs línia base</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FILTER TABS ────────────────────────────────────────────── -->
+<section style="padding:0 0 8px;">
+  <div class="container">
+    <div class="filter-tabs" id="filter-tabs-ui">
+      <span style="font-size:.8rem;color:var(--text-muted);font-weight:600;padding:8px 0;align-self:center;">Filtrar:</span>
+      <button class="filter-tab active" onclick="filterCards('tots',this)">🔢 Tots</button>
+      <button class="filter-tab" onclick="filterCards('anual',this)">📅 Anuals</button>
+      <button class="filter-tab" onclick="filterCards('curs',this)">🎓 Curs</button>
+      <button class="filter-tab" onclick="filterCards('custom',this)">🎯 Periode custom</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── RESULTS GRID ───────────────────────────────────────────── -->
+<section style="padding:0 0 48px;">
+  <div class="container">
+    <div class="section-title mb-3">
+      <div class="dot"></div>
+      <h2>8 Càlculs + 4 Períodes personalitzats</h2>
+    </div>
+    <div id="calc-results">
+      <!-- Populated by script.js -->
+      <div style="grid-column:1/-1; text-align:center; padding:48px; color:var(--text-muted);">
+        ⏳ Calculant…
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PERIOD CHART ───────────────────────────────────────────── -->
+<section style="padding:0 0 48px;">
+  <div class="container">
+    <div class="section-title"><div class="dot"></div><h2>Evolució del període seleccionat</h2></div>
+    <div class="chart-box" style="height:340px;">
+      <div class="chart-title">Electricitat i Aigua · Període seleccionat</div>
+      <canvas id="chart-periode" style="height:290px;"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW TO REDUCE ──────────────────────────────────────────── -->
+<section style="padding:0 0 64px;">
+  <div class="container">
+    <div class="section-title"><div class="dot"></div><h2>Com reduir cada indicador</h2></div>
+    <div class="grid-2">
+
+      <!-- ELECTRICITAT -->
+      <div class="tip-card fade-up">
+        <div class="tip-card-header">
+          <div class="tip-icon" style="background:rgba(245,158,11,0.12);">⚡</div>
+          <div>
+            <h3>Electricitat</h3>
+            <div class="tag tag-amber">Impacte alt · 15.145 kg CO₂/any</div>
+          </div>
+        </div>
+        <ul class="tip-list">
+          <li>Configurar PCs en mode repòs (standby) automàtic als 10 minuts d'inactivitat</li>
+          <li>Apagar projectors i pantalles quan no s'utilitzen a l'aula</li>
+          <li>Substituir fluorescents per LED (estalvi fins al 60% en il·luminació)</li>
+          <li>Ampliar la instal·lació solar fotovoltaica (ara: 30,94 kWp)</li>
+          <li>Instal·lar sensors de presència a banys, passadissos i zones comunes</li>
+        </ul>
+        <div class="tip-saving">
+          <span>Potencial d'estalvi estimat (3 anys)</span>
+          <span class="pct">−30%</span>
+        </div>
+      </div>
+
+      <!-- AIGUA -->
+      <div class="tip-card fade-up">
+        <div class="tip-card-header">
+          <div class="tip-icon" style="background:rgba(14,165,233,0.12);">💧</div>
+          <div>
+            <h3>Aigua</h3>
+            <div class="tag tag-blue">Consum diari: ~5.000–8.000 L</div>
+          </div>
+        </div>
+        <ul class="tip-list">
+          <li>Instal·lar aixetes amb sensor d'infraroig a tots els lavabos</li>
+          <li>Col·locar limitadors de cabal (reductors a 6 L/min) en totes les aixetes</li>
+          <li>Detecció de fuites amb lectures horàries (com les d'Aigues de Barcelona)</li>
+          <li>Recuperar l'aigua de pluja per al reg del jardí i patis</li>
+          <li>Conscienciació als alumnes (consum nocturn >100 L/h = possible fuita)</li>
+        </ul>
+        <div class="tip-saving">
+          <span>Potencial d'estalvi estimat (3 anys)</span>
+          <span class="pct">−25%</span>
+        </div>
+      </div>
+
+      <!-- CONSUMIBLES -->
+      <div class="tip-card fade-up">
+        <div class="tip-card-header">
+          <div class="tip-icon" style="background:rgba(16,185,129,0.12);">📄</div>
+          <div>
+            <h3>Consumibles d'oficina</h3>
+            <div class="tag tag-green">Paper Navigator: principal despesa</div>
+          </div>
+        </div>
+        <ul class="tip-list">
+          <li>Digitalitzar lliuraments i apunts: prioritzar entorns virtuals (Moodle, GitHub)</li>
+          <li>Imprimir en doble cara per defecte a totes les impressores</li>
+          <li>Triar paper reciclat certificat (FSC/PEFC) en lloc del Navigator convencional</li>
+          <li>Reutilitzar el paper usat per una sola cara com a esborranys</li>
+          <li>Substituir retoladors de pissarra per ones reutilitzables d'estàndard alt</li>
+        </ul>
+        <div class="tip-saving">
+          <span>Potencial d'estalvi estimat (3 anys)</span>
+          <span class="pct">−35%</span>
+        </div>
+      </div>
+
+      <!-- NETEJA -->
+      <div class="tip-card fade-up">
+        <div class="tip-card-header">
+          <div class="tip-icon" style="background:rgba(168,85,247,0.12);">🧹</div>
+          <div>
+            <h3>Productes de neteja</h3>
+            <div class="tag tag-purple">4.652 kg CO₂/any · Major impacte</div>
+          </div>
+        </div>
+        <ul class="tip-list">
+          <li>Substituir productes de neteja convencionals per ecoetiquetats (Ecolabel UE)</li>
+          <li>Comprar sabó i productes en format concentrat o recarregable (menys embalatge)</li>
+          <li>Reduir la freqüència de neteja exterior (patis) i planificar millor amb contracte</li>
+          <li>Implantar dispensadors de sabó amb sensor per evitar malbaratament</li>
+          <li>Preferir paper reciclat i certificat per a WC i secamans</li>
+        </ul>
+        <div class="tip-saving">
+          <span>Potencial d'estalvi estimat (3 anys)</span>
+          <span class="pct">−20%</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPORT BUTTONS ─────────────────────────────────────────── -->
+<section style="padding:0 0 80px;" class="no-print">
+  <div class="container">
+    <div class="card" style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; padding:24px 28px;">
+      <div style="flex:1; min-width:200px;">
+        <h3 style="margin-bottom:4px;">📥 Exportar resultats</h3>
+        <p style="font-size:.875rem; margin:0;">Desa els càlculs actuals en format PDF per incloure'ls a la memòria del projecte.</p>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btn-export-pdf">📊 Exportar taula (PDF)</button>
+        <button class="btn btn-outline" id="btn-export-page">📄 Exportar pàgina (PDF)</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- end #main-content -->
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div>
+      <div class="footer-brand">🌍 ITB Energia · Calculadora d'Estalvi</div>
+      <div class="footer-copy mt-1">TA08 – ASIXc1 · Institut Tecnològic de Barcelona · Curs 25/26</div>
+    </div>
+    <div class="footer-copy" style="text-align:right;">
+      Dades: ITB Leaks 2024<br>
+      Llicència <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC-BY 4.0</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS ────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/export.js"></script>
+<script src="js/script.js"></script>
+
+<script>
+// Filter tab visual behaviour (client-side only, uses CSS visibility)
+function filterCards(type, btn) {
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('#calc-results .calc-card').forEach(card => {
+    // Each card has data-periode set after rendering
+    const p = card.dataset.periode || '';
+    if (type === 'tots') {
+      card.style.display = '';
+    } else {
+      card.style.display = p === type ? '' : 'none';
+    }
+  });
+}
+
+// After script.js renders cards, attach data-periode attribute
+const _origRender = typeof renderCalcCards !== 'undefined' ? renderCalcCards : null;
+// Override to add data-periode
+document.addEventListener('DOMContentLoaded', () => {
+  const origCalcular = calcular;
+  // Patch after render
+  const patchObserver = new MutationObserver(() => {
+    document.querySelectorAll('#calc-results .calc-card').forEach((card, i) => {
+      if (!card.dataset.periode && currentResults[i]) {
+        card.dataset.periode = currentResults[i].periode;
+      }
+    });
+  });
+  const wrap = document.getElementById('calc-results');
+  if (wrap) patchObserver.observe(wrap, { childList: true });
+});
+</script>
+</body>
+</html>
