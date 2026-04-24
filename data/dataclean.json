@@ -1,0 +1,134 @@
+{
+  "projecte": "TA08-ASIXc1C-PinQuanLu",
+  "fase": "Fase 3 - Calculadora d'estalvi energètic",
+  "nota_metodologica": "Fitxer de dades netes utilitzat per la web. Les dades provenen del material ITB Leaks i s'han completat amb estimacions raonables quan les fonts eren captures o imatges. S'ha ajustat el patró mensual al context d'un centre educatiu a Barcelona.",
+  "mesos": [
+    "2024-01",
+    "2024-02",
+    "2024-03",
+    "2024-04",
+    "2024-05",
+    "2024-06",
+    "2024-07",
+    "2024-08",
+    "2024-09",
+    "2024-10",
+    "2024-11",
+    "2024-12"
+  ],
+  "criteris_model": {
+    "calendari": "Activitat alta de setembre a juny i baixa al juliol/agost.",
+    "context_local": "Barcelona: mesos càlids amb més pressió hídrica i mesos freds amb més demanda energètica.",
+    "limitacio": "Les dades de captures i factures en imatge no permeten una lectura comptable exacta sense auditoria oficial."
+  },
+  "indicadors": [
+    {
+      "id": "electricitat",
+      "nom": "Electricitat",
+      "unitat": "kWh",
+      "font": "Plant Report_ITB_01-2025.xlsx + normalització mensual",
+      "fiabilitat": "Alta-mitjana",
+      "valors": [
+        9860,
+        8700,
+        7600,
+        6900,
+        6400,
+        6200,
+        4100,
+        3800,
+        7400,
+        8300,
+        9100,
+        9600
+      ],
+      "factor_emissio_kgco2_unitat": 0.126,
+      "cost_unitari": 0.18
+    },
+    {
+      "id": "aigua",
+      "nom": "Aigua",
+      "unitat": "L",
+      "font": "Aigua-image001/002/003.png + extrapolació mensual",
+      "fiabilitat": "Mitjana",
+      "valors": [
+        118000,
+        122000,
+        116000,
+        126000,
+        139000,
+        151000,
+        82000,
+        58000,
+        132000,
+        146000,
+        154000,
+        138000
+      ],
+      "factor_emissio_kgco2_unitat": 0.0003,
+      "cost_unitari": 0.0025
+    },
+    {
+      "id": "material_oficina",
+      "nom": "Consumibles d'oficina",
+      "unitat": "unitats equivalents",
+      "font": "F035, F036, F327, F328 + distribució per calendari lectiu",
+      "fiabilitat": "Mitjana-baixa",
+      "valors": [
+        820,
+        900,
+        980,
+        940,
+        860,
+        780,
+        320,
+        260,
+        1180,
+        1260,
+        1320,
+        980
+      ],
+      "factor_emissio_kgco2_unitat": 0.045,
+      "cost_unitari": 0.12
+    },
+    {
+      "id": "productes_neteja",
+      "nom": "Productes de neteja",
+      "unitat": "unitats equivalents",
+      "font": "F055-Neteges.png, F056-Neteges.png + estimació mensual",
+      "fiabilitat": "Mitjana-baixa",
+      "valors": [
+        145,
+        150,
+        158,
+        162,
+        160,
+        155,
+        95,
+        88,
+        175,
+        182,
+        190,
+        170
+      ],
+      "factor_emissio_kgco2_unitat": 0.7,
+      "cost_unitari": 3.8
+    }
+  ],
+  "objectiu_reduccio": {
+    "termini_anys": 3,
+    "reduccio_global_percent": 30
+  },
+  "fitxers_font_recomanats": [
+    "Plant Report_ITB_01-2025.xlsx",
+    "Aigua-image001.png",
+    "Aigua-image002.png",
+    "Aigua-image003.png",
+    "F035-MaterialOficina-0014_7010419754.png",
+    "F036-Lyreco-MaterialOficinaRecanvisPissarraPaper.png",
+    "F327-34.png",
+    "F328-198.png",
+    "F055-Neteges.png",
+    "F056-Neteges.png"
+  ]
+}

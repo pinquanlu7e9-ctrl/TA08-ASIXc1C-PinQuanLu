@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TA08 - Calculadora d'estalvi energètic</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite">Càlcul actualitzat correctament.</div>
+
+  <header class="hero" id="inici">
+    <nav class="topbar">
+      <a class="brand" href="#inici" aria-label="Inici">
+        <span class="brand-mark">TA08</span>
+        <span>
+          <strong>Calculadora d'estalvi energètic</strong>
+          <small>ASIXc1C · PinQuanLu</small>
+        </span>
+      </a>
+      <div class="topbar-actions">
+        <a href="#calculadora">Calculadora</a>
+        <a href="#calculs">8 càlculs</a>
+        <a href="#pla">Pla 30%</a>
+        <button id="printBtn" class="primary-btn" type="button">Exportar PDF</button>
+      </div>
+    </nav>
+
+    <section class="hero-grid">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Fase 3 · Construcció de la calculadora energètica</p>
+        <h1>Podem reduir un 30% l'impacte ambiental del centre en 3 anys?</h1>
+        <p>
+          Aquesta web estima el consum i l'estalvi potencial de quatre indicadors del centre:
+          electricitat, aigua, consumibles d'oficina i productes de neteja. El model incorpora
+          calendari lectiu, cicles estacionals de Barcelona i accions de reducció progressiva.
+        </p>
+        <div class="hero-badges" aria-label="Funcionalitats principals">
+          <span>8 càlculs obligatoris</span>
+          <span>Rang de dates en català</span>
+          <span>Recalcul amb millores</span>
+          <span>Exportació PDF</span>
+        </div>
+      </div>
+
+      <aside class="impact-card reveal" aria-label="Objectiu global">
+        <span class="card-label">Objectiu global</span>
+        <strong id="globalReductionHero">30%</strong>
+        <p>reducció acumulada prevista amb un pla de 3 anys.</p>
+        <div class="target-meter" aria-hidden="true">
+          <div id="heroMeterFill"></div>
+        </div>
+        <small id="heroMeterText">Escenari base: objectiu recomanat</small>
+      </aside>
+    </section>
+  </header>
+
+  <main>
+    <section class="section" id="diagnosi">
+      <div class="section-heading reveal">
+        <p class="eyebrow">01 · Dades base</p>
+        <h2>Indicadors de treball</h2>
+        <p>
+          Les dades s'han normalitzat a partir del material facilitat per a la tasca. Quan una font
+          era una imatge o una captura, s'ha completat la sèrie mensual amb una estimació coherent
+          amb l'activitat d'un centre educatiu a Barcelona.
+        </p>
+      </div>
+      <div id="indicatorCards" class="card-grid reveal"></div>
+    </section>
+
+    <section class="section panel" id="calculadora">
+      <div class="section-heading reveal">
+        <p class="eyebrow">02 · Calculadora interactiva</p>
+        <h2>Resultats per indicador i període</h2>
+        <p>
+          Canvia l'indicador, el període o l'escenari de reducció. Després prem <strong>Calcular</strong>
+          per actualitzar els resultats, els gràfics i la comparació abans/després.
+        </p>
+      </div>
+
+      <div class="controls reveal" aria-label="Controls de la calculadora">
+        <label>
+          Indicador
+          <select id="indicatorSelect"></select>
+        </label>
+        <label>
+          Mes inicial
+          <select id="startMonthSelect"></select>
+        </label>
+        <label>
+          Mes final
+          <select id="endMonthSelect"></select>
+        </label>
+        <label class="range-control">
+          Reducció objectiu
+          <span><strong id="reductionLabel">30%</strong> en 3 anys</span>
+          <input id="reductionRange" type="range" min="20" max="40" step="1" value="30" />
+        </label>
+        <button id="calculateBtn" class="primary-btn calculate-btn" type="button">Calcular</button>
+      </div>
+
+      <div class="calc-status reveal">
+        <span id="dirtyBadge" class="status-badge clean">Resultats actualitzats</span>
+        <span id="activeScenario">Escenari aplicat: 30% de reducció acumulada.</span>
+      </div>
+
+      <div class="results-grid reveal">
+        <article class="result-card">
+          <span>Consum del període</span>
+          <strong id="periodConsumption">--</strong>
+          <small id="periodCost">--</small>
+        </article>
+        <article class="result-card">
+          <span>Previsió pròxim any</span>
+          <strong id="annualForecast">--</strong>
+          <small id="annualCost">--</small>
+        </article>
+        <article class="result-card">
+          <span>Emissions estimades</span>
+          <strong id="periodEmissions">--</strong>
+          <small>CO₂ equivalent</small>
+        </article>
+        <article class="result-card success">
+          <span>Resultat amb millores</span>
+          <strong id="improvedForecast">--</strong>
+          <small id="savingAmount">--</small>
+        </article>
+      </div>
+
+      <div class="interactive-strip reveal">
+        <article>
+          <span class="mini-label">Objectiu assolit</span>
+          <div class="progress-line"><div id="targetProgress"></div></div>
+          <strong id="targetProgressText">30 / 30%</strong>
+        </article>
+        <article>
+          <span class="mini-label">Mesos analitzats</span>
+          <strong id="monthsCount">--</strong>
+        </article>
+        <article>
+          <span class="mini-label">Estalvi econòmic anual</span>
+          <strong id="annualMoneySaving">--</strong>
+        </article>
+      </div>
+
+      <div class="tabs reveal" role="tablist" aria-label="Visualització de resultats">
+        <button class="tab-btn active" data-tab="evolucio" type="button">Evolució mensual</button>
+        <button class="tab-btn" data-tab="comparacio" type="button">Abans/després</button>
+        <button class="tab-btn" data-tab="hipotesis" type="button">Hipòtesis</button>
+      </div>
+
+      <div class="tab-panels reveal">
+        <section class="tab-panel active" id="tab-evolucio">
+          <article class="chart-card wide">
+            <div class="chart-head">
+              <div>
+                <h3>Evolució mensual</h3>
+                <p id="chartDescription">Consum base i previsió mensual.</p>
+              </div>
+              <button id="toggleChartBtn" class="secondary-btn" type="button">Canviar gràfic</button>
+            </div>
+            <canvas id="mainChart" aria-label="Gràfic de consum mensual"></canvas>
+          </article>
+        </section>
+
+        <section class="tab-panel" id="tab-comparacio">
+          <div class="charts-layout">
+            <article class="chart-card">
+              <div class="chart-head">
+                <h3>Comparació abans/després</h3>
+                <p>Recalcul segons l'escenari de reducció seleccionat.</p>
+              </div>
+              <canvas id="compareChart" aria-label="Gràfic de comparació"></canvas>
+            </article>
+            <article class="summary-card">
+              <h3>Lectura del resultat</h3>
+              <p id="resultReading">--</p>
+              <div id="scenarioTags" class="scenario-tags"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-hipotesis">
+          <div class="method-grid compact">
+            <article>
+              <h3>Context local</h3>
+              <p>Barcelona té més pressió tèrmica en mesos càlids i consum energètic més alt en mesos freds o de màxima activitat lectiva.</p>
+            </article>
+            <article>
+              <h3>Calendari lectiu</h3>
+              <p>Setembre-juny té més activitat; juliol i agost es redueixen per vacances, manteniment i menor ocupació.</p>
+            </article>
+            <article>
+              <h3>Fonts incompletes</h3>
+              <p>Les captures i factures en imatge s'han convertit en valors mensuals equivalents per poder calcular tendències i escenaris.</p>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="section" id="calculs">
+      <div class="section-heading reveal">
+        <p class="eyebrow">03 · 8 càlculs obligatoris</p>
+        <h2>Taula general de resultats</h2>
+        <p>
+          Resum dels càlculs demanats: pròxim any i període setembre-juny per als quatre indicadors.
+        </p>
+      </div>
+      <div class="table-toolbar reveal">
+        <button id="refreshTableBtn" class="secondary-btn" type="button">Actualitzar taula amb l'escenari</button>
+        <span id="tableScenario">Escenari actual: 30%</span>
+      </div>
+      <div class="table-wrap reveal">
+        <table>
+          <thead>
+            <tr>
+              <th>Indicador</th>
+              <th>Càlcul</th>
+              <th>Resultat base</th>
+              <th>Resultat amb millores</th>
+              <th>Estalvi</th>
+            </tr>
+          </thead>
+          <tbody id="mandatoryTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section panel" id="millores">
+      <div class="section-heading reveal">
+        <p class="eyebrow">04 · Reducció per indicador</p>
+        <h2>Accions concretes per reduir el consum</h2>
+        <p>
+          Targetes desplegables amb mesures, indicador de seguiment i connexió amb economia circular.
+        </p>
+      </div>
+      <div id="actionsGrid" class="actions-grid reveal"></div>
+    </section>
+
+    <section class="section" id="pla">
+      <div class="section-heading reveal">
+        <p class="eyebrow">05 · Pla a 3 anys</p>
+        <h2>Pla per reduir un 30% l'impacte ambiental</h2>
+        <p>
+          El pla combina objectius mesurables, accions concretes, indicadors, cronograma i principis d'economia circular.
+        </p>
+      </div>
+      <div class="timeline reveal" id="timeline"></div>
+      <div class="summary-box reveal">
+        <h3>Conclusió tècnica</h3>
+        <p id="technicalConclusion"></p>
+      </div>
+    </section>
+
+    <section class="section panel" id="metodologia">
+      <div class="section-heading reveal">
+        <p class="eyebrow">06 · Metodologia i qualitat de dades</p>
+        <h2>Com funciona el model</h2>
+      </div>
+      <div class="method-grid reveal">
+        <article>
+          <h3>Tendències temporals</h3>
+          <p>S'aplica un creixement anual moderat si no es fan millores. Representa increment d'ús d'espais, equips TIC i serveis.</p>
+        </article>
+        <article>
+          <h3>Cicles estacionals</h3>
+          <p>Els valors mensuals canvien segons activitat lectiva, temperatura i períodes de vacances.</p>
+        </article>
+        <article>
+          <h3>Recalcul de millores</h3>
+          <p>El sistema aplica reduccions progressives i calcula impacte en consum, cost i emissions equivalents.</p>
+        </article>
+      </div>
+      <details class="data-note reveal">
+        <summary>Veure criteris de qualitat de dades</summary>
+        <ul>
+          <li>Electricitat: calibrada amb el report fotovoltaic i consum del gener de 2025.</li>
+          <li>Aigua: ajustada a partir de captures horàries i extrapolació mensual.</li>
+          <li>Consumibles i neteja: estimació mensual a partir de factures i activitat lectiva.</li>
+          <li>Les dades no substitueixen una auditoria real; serveixen per construir la calculadora de la Fase 3.</li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>TA08-ASIXc1C-PinQuanLu · Web estàtica HTML, CSS i JavaScript · Preparada per GitHub Pages</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/calculations.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
